@@ -16,11 +16,12 @@ class _BookingListScreenState extends State<BookingListScreen> {
         title: const Text('Booking List'),
         centerTitle: true,
       ),
-      body: const Column(
+      body: Column(
         children: [
           Row(
             children: [
-              Expanded(child: CupertinoTextField()),
+              const Expanded(child: CupertinoTextField()),
+              IconButton(onPressed: () {}, icon: const Icon(Icons.search))
             ],
           )
         ],
