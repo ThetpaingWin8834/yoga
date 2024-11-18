@@ -103,8 +103,8 @@ class _SearchScreenState extends State<SearchScreen> {
       final response = await http.post(
           Uri.parse('http://10.0.2.2/flowfityoga/searchClass.php'),
           body: jsonEncode({'day': text}));
-      final json = jsonDecode(response.body);
-      if (json is! List<dynamic>) {
+      final temp = jsonDecode(response.body);
+      if (temp is! List<dynamic>) {
         setState(
           () {
             isLoading = false;
@@ -113,7 +113,7 @@ class _SearchScreenState extends State<SearchScreen> {
         );
         return;
       }
-      final jsonList = json;
+      final jsonList = temp;
       setState(
         () {
           isLoading = false;
