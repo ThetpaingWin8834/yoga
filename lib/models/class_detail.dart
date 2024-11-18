@@ -62,7 +62,7 @@ class ClassDetail {
 
   factory ClassDetail.fromMap(Map<String, dynamic> map) {
     return ClassDetail(
-      id: map['id'],
+      id: int.parse(map['id'].toString()),
       dayOfWeek: map['day_of_week'],
       timeOfCourse: map['time_of_course'],
       capacityOfClass: map['capacity_of_class'],
