@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 class ClassDetail {
-  final String id;
+  final int id;
   final String? dayOfWeek;
   final String? timeOfCourse;
   final String? capacityOfClass;
@@ -23,7 +23,7 @@ class ClassDetail {
   });
 
   ClassDetail copyWith({
-    String? id,
+    int? id,
     String? dayOfWeek,
     String? timeOfCourse,
     String? capacityOfClass,
