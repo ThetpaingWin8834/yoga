@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 import '../models/class_item.dart';
 import '../utils.dart';
@@ -12,7 +15,7 @@ class BookingListScreen extends StatefulWidget {
 }
 
 class _BookingListScreenState extends State<BookingListScreen> {
-  bool isLoading = true;
+  bool isLoading = false;
   Object? error;
   List<ClassItem> classlist = [];
   final List<ClassItem> _allData = [];
@@ -20,7 +23,6 @@ class _BookingListScreenState extends State<BookingListScreen> {
   @override
   void initState() {
     super.initState();
-    getAllClasses();
   }
 
   @override
@@ -32,36 +34,28 @@ class _BookingListScreenState extends State<BookingListScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: CupertinoTextField(
-          controller: _controller,
-          placeholder: 'Search...',
-          onChanged: onSearch,
-        ),
-        centerTitle: true,
-      ),
+      appBar: AppBar(title: const Text('Search')),
       body: Column(
         children: [
-          // Padding(
-          //   padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 4),
-          //   child: Row(
-          //     children: [
-          //       Expanded(
-          //           child: CupertinoTextField(
-          //         controller: _controller,
-          //         placeholder: 'Day of week of time',
-          //         onChanged: onSearch,
-          //       )),
-          //       // const SizedBox(width: 12),
-          //       // FilledButton.tonal(
-          //       //   onPressed: () {
-          //       //     onSearch(_controller.text.trim());
-          //       //   },
-          //       //   child: const Text('Search'),
-          //       // )
-          //     ],
-          //   ),
-          // ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 4),
+            child: Row(
+              children: [
+                Expanded(
+                    child: CupertinoTextField(
+                  controller: _controller,
+                  placeholder: 'Enter email',
+                )),
+                const SizedBox(width: 12),
+                FilledButton.tonal(
+                  onPressed: () {
+                    onSearch(_controller.text.trim());
+                  },
+                  child: const Text('Search'),
+                )
+              ],
+            ),
+          ),
           Expanded(
             child: isLoading
                 ? const Center(
@@ -72,8 +66,10 @@ class _BookingListScreenState extends State<BookingListScreen> {
                         child: Text(error.toString()),
                       )
                     : classlist.isEmpty
-                        ? const Center(
-                            child: Text('There is no available class'),
+                        ? Center(
+                            child: Text(_controller.text.trim().isEmpty
+                                ? 'Search with email'
+                                : 'There is no available class'),
                           )
                         : ListView.builder(
                             itemBuilder: (context, index) {
@@ -88,21 +84,56 @@ class _BookingListScreenState extends State<BookingListScreen> {
     );
   }
 
-  void onSearch(String text) {
-    setState(
-      () {
-        if (text.isEmpty) {
-          classlist = _allData;
-        } else {
-          classlist = _allData.where((item) {
-            return item.dateOfClass
-                    .toLowerCase()
-                    .contains(text.toLowerCase()) ||
-                item.teacher.toLowerCase().contains(text.toLowerCase());
-          }).toList();
-        }
-      },
-    );
+  void onSearch(String text) async {
+    try {
+      final isValid = isValidEmail(text);
+      if (!isValid) {
+        ScaffoldMessenger.maybeOf(context)
+            ?.showSnackBar(const SnackBar(content: Text('Invalid email')));
+        return;
+      }
+      setState(
+        () {
+          isLoading = true;
+          error = null;
+        },
+      );
+      final response = await http.post(
+          Uri.parse('http://10.0.2.2/flowfityoga/bookinglist.php'),
+          body: jsonEncode({'email': text}));
+      final jsonList = jsonDecode(response.body) as List<dynamic>;
+      setState(
+        () {
+          isLoading = false;
+          error = null;
+          final temp = jsonList
+              .map<ClassItem>((json) => ClassItem.fromMap(json))
+              .toList();
+          classlist = temp;
+        },
+      );
+    } catch (e) {
+      setState(
+        () {
+          isLoading = false;
+          error = e.toString();
+        },
+      );
+    }
+    // setState(
+    //   () {
+    //     if (text.isEmpty) {
+    //       classlist = _allData;
+    //     } else {
+    //       classlist = _allData.where((item) {
+    //         return item.dateOfClass
+    //                 .toLowerCase()
+    //                 .contains(text.toLowerCase()) ||
+    //             item.teacher.toLowerCase().contains(text.toLowerCase());
+    //       }).toList();
+    //     }
+    //   },
+    // );
   }
 
   void getAllClasses() async {
