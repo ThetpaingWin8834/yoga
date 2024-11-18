@@ -1,6 +1,10 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:convert';
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:yoga/data/cart_manager.dart';
 import 'package:yoga/models/cart_item.dart';
 
@@ -115,6 +119,7 @@ class _CartListScreenState extends State<CartListScreen> {
                 Navigator.pop(context);
                 return;
               }
+              bookNow(item, text);
             },
           ),
         ],
@@ -124,6 +129,30 @@ class _CartListScreenState extends State<CartListScreen> {
         controller.dispose();
       },
     );
+  }
+
+  void bookNow(CartItem item, String email) async {
+    try {
+      final response = await http.post(
+        Uri.parse('http://10.0.2.2/flowfityoga/booking.php'),
+        body: jsonEncode({
+          'courseId': item.courseId,
+          'email': email,
+        }),
+      );
+      if (context.mounted) {
+        ScaffoldMessenger.of(context)
+            .showSnackBar(const SnackBar(content: Text('Success')));
+        CartManager.removeCartItem(item.courseId);
+        getAllItemsFromCart();
+      }
+    } catch (e, s) {
+      log(s.toString());
+      if (context.mounted) {
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text(e.toString())));
+      }
+    }
   }
 
   void getAllItemsFromCart() {
@@ -148,7 +177,15 @@ class _CartListScreenState extends State<CartListScreen> {
           CupertinoDialogAction(
             isDestructiveAction: true,
             child: const Text('Yes'),
-            onPressed: () {},
+            onPressed: () {
+              Navigator.pop(context);
+              CartManager.deleteAll(_cartList
+                  .map(
+                    (e) => e.courseId,
+                  )
+                  .toList());
+              getAllItemsFromCart();
+            },
           ),
         ],
       ),
