@@ -1,5 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:yoga/data/cart_manager.dart';
 import 'package:yoga/models/cart_item.dart';
 import 'package:yoga/models/class_detail.dart';
@@ -101,28 +102,28 @@ class _ClassDetailsScreenState extends State<ClassDetailsScreen> {
   }
 
   void getDetails() async {
-    setState(() {
-      isLoading = true;
-      error = null;
-      classDetail;
-    });
-    await Future.delayed(const Duration(seconds: 3));
-    setState(() {
-      isLoading = false;
-      error = null;
-      classDetail = ClassDetail.fromMap({
-        "id": widget.classData.id,
-        "day_of_week": "Sunday",
-        "time_of_course": "13:10",
-        "capacity_of_class": "2 person",
-        "duration_of_class": "60 hr",
-        "price_of_class": "\$1000",
-        "type_of_class": "Flow Yoga",
-        "description_of_class": "Flow",
-        "location_of_class": "Yangon"
+    try {
+      setState(() {
+        isLoading = true;
+        error = null;
+        classDetail = null;
       });
-      checkIsAdded();
-    });
+      // await Future.delayed(const Duration(seconds: 3));
+      final response = await http.post(
+          Uri.parse('http://10.0.2.2/flowfityoga/getCourseById.php'),
+          body: {'courseId': widget.classData.courseId});
+      setState(() {
+        isLoading = false;
+        error = null;
+        classDetail = ClassDetail.fromJson(response.body);
+        checkIsAdded();
+      });
+    } catch (e, s) {
+      setState(() {
+        isLoading = false;
+        error = "$e: $s";
+      });
+    }
   }
 
   @override
