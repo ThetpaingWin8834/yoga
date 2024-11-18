@@ -41,7 +41,9 @@ class _ClassDetailsScreenState extends State<ClassDetailsScreen> {
               child: CircularProgressIndicator(),
             )
           : error != null
-              ? const Center()
+              ? Center(
+                  child: Text(error.toString()),
+                )
               : classDetail != null
                   ? Column(
                       children: [
