@@ -1,6 +1,4 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'dart:convert';
-
 import 'package:hive_flutter/adapters.dart';
 
 part 'cart_item.g.dart';
@@ -80,58 +78,6 @@ class CartItem {
       locationOfClass: locationOfClass ?? this.locationOfClass,
     );
   }
-
-  Map<String, dynamic> toMap() {
-    return <String, dynamic>{
-      'classId': classId,
-      'courseId': courseId,
-      'dateOfClass': dateOfClass,
-      'teacher': teacher,
-      'comments': comments,
-      'dayOfWeek': dayOfWeek,
-      'timeOfCourse': timeOfCourse,
-      'capacityOfClass': capacityOfClass,
-      'durationOfClass': durationOfClass,
-      'priceOfClass': priceOfClass,
-      'typeOfClass': typeOfClass,
-      'descriptionOfClass': descriptionOfClass,
-      'locationOfClass': locationOfClass,
-    };
-  }
-
-  factory CartItem.fromMap(Map<String, dynamic> map) {
-    return CartItem(
-      classId: map['classId'],
-      courseId: map['courseId'],
-      dateOfClass: map['dateOfClass'] as String,
-      teacher: map['teacher'] as String,
-      comments: map['comments'] as String,
-      dayOfWeek: map['dayOfWeek'] != null ? map['dayOfWeek'] as String : null,
-      timeOfCourse:
-          map['timeOfCourse'] != null ? map['timeOfCourse'] as String : null,
-      capacityOfClass: map['capacityOfClass'] != null
-          ? map['capacityOfClass'] as String
-          : null,
-      durationOfClass: map['durationOfClass'] != null
-          ? map['durationOfClass'] as String
-          : null,
-      priceOfClass:
-          map['priceOfClass'] != null ? map['priceOfClass'] as String : null,
-      typeOfClass:
-          map['typeOfClass'] != null ? map['typeOfClass'] as String : null,
-      descriptionOfClass: map['descriptionOfClass'] != null
-          ? map['descriptionOfClass'] as String
-          : null,
-      locationOfClass: map['locationOfClass'] != null
-          ? map['locationOfClass'] as String
-          : null,
-    );
-  }
-
-  String toJson() => json.encode(toMap());
-
-  factory CartItem.fromJson(String source) =>
-      CartItem.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
   String toString() {
