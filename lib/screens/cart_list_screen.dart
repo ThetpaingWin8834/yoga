@@ -115,8 +115,6 @@ class _CartListScreenState extends State<CartListScreen> {
                 Navigator.pop(context);
                 return;
               }
-
-              ///booking process
             },
           ),
         ],
