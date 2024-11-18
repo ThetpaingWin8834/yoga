@@ -5,12 +5,12 @@ import 'package:hive_flutter/adapters.dart';
 
 part 'cart_item.g.dart';
 
-@HiveType(typeId: 2)
+@HiveType(typeId: 3)
 class CartItem {
   @HiveField(0)
-  final String classId;
+  final int classId;
   @HiveField(1)
-  final String courseId;
+  final int courseId;
   @HiveField(2)
   final String dateOfClass;
   @HiveField(3)
@@ -50,8 +50,8 @@ class CartItem {
   });
 
   CartItem copyWith({
-    String? classId,
-    String? courseId,
+    int? classId,
+    int? courseId,
     String? dateOfClass,
     String? teacher,
     String? comments,
@@ -101,8 +101,8 @@ class CartItem {
 
   factory CartItem.fromMap(Map<String, dynamic> map) {
     return CartItem(
-      classId: map['classId'] as String,
-      courseId: map['courseId'] as String,
+      classId: map['classId'],
+      courseId: map['courseId'],
       dateOfClass: map['dateOfClass'] as String,
       teacher: map['teacher'] as String,
       comments: map['comments'] as String,
