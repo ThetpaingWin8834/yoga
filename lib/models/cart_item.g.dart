@@ -8,7 +8,7 @@ part of 'cart_item.dart';
 
 class CartItemAdapter extends TypeAdapter<CartItem> {
   @override
-  final int typeId = 2;
+  final int typeId = 3;
 
   @override
   CartItem read(BinaryReader reader) {
@@ -17,8 +17,8 @@ class CartItemAdapter extends TypeAdapter<CartItem> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return CartItem(
-      classId: fields[0] as String,
-      courseId: fields[1] as String,
+      classId: fields[0] as int,
+      courseId: fields[1] as int,
       dateOfClass: fields[2] as String,
       teacher: fields[3] as String,
       comments: fields[4] as String,
