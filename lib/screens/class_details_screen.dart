@@ -7,6 +7,7 @@ import 'package:yoga/data/cart_manager.dart';
 import 'package:yoga/models/cart_item.dart';
 import 'package:yoga/models/class_detail.dart';
 import 'package:yoga/models/class_item.dart';
+import 'package:yoga/utils.dart';
 
 class ClassDetailsScreen extends StatefulWidget {
   final ClassItem classData;
@@ -117,16 +118,23 @@ class _ClassDetailsScreenState extends State<ClassDetailsScreen> {
           Uri.parse('http://10.0.2.2/flowfityoga/getCourseById.php'),
           body: jsonEncode({'courseId': widget.classData.courseId.toString()}));
       setState(() {
-        final json = jsonDecode(response.body)[0];
+        final json = jsonDecode(response.body) as List;
+        if (json.isEmpty) {
+          throw EmptyDataException();
+        }
         isLoading = false;
         error = null;
-        classDetail = ClassDetail.fromMap(json);
+        classDetail = ClassDetail.fromMap(json[0]);
         checkIsAdded();
       });
     } catch (e, s) {
       setState(() {
         isLoading = false;
-        error = "$e: $s";
+        if (e is EmptyDataException) {
+          error = 'Empty data';
+        } else {
+          error = "$e: $s";
+        }
       });
     }
   }
