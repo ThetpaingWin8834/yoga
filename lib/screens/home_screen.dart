@@ -76,12 +76,13 @@ class _HomeScreenState extends State<HomeScreen> {
       // await Future.delayed(const Duration(seconds: 2));
       final response =
           await http.get(Uri.parse('http://10.0.2.2/flowfityoga/getClass.php'));
-      final jsonList = jsonDecode(response.body) as List<Map<String, dynamic>>;
+      final jsonList = jsonDecode(response.body) as List<dynamic>;
       setState(() {
         isLoading = false;
         error = null;
-        classlist =
+        final temp =
             jsonList.map<ClassItem>((json) => ClassItem.fromMap(json)).toList();
+        classlist = temp;
         // classlist = List.generate(
         //   100,
         //   (index) => ClassItem(
