@@ -10,7 +10,7 @@ class CartManager {
     return box.values.toList();
   }
 
-  static CartItem? getCartItem(String id) {
+  static CartItem? getCartItem(int id) {
     final box = Hive.box<CartItem>(cartBoxName);
     return box.get(id);
   }
