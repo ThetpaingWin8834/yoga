@@ -43,8 +43,8 @@ class ClassItem {
 
   factory ClassItem.fromMap(Map<String, dynamic> map) {
     return ClassItem(
-      id: map['id'],
-      courseId: map['courseId'],
+      id: int.parse(map['id'].toString()),
+      courseId: int.parse(map['courseId'].toString()),
       dateOfClass: map['dateOfClass'] as String,
       teacher: map['teacher'] as String,
       comments: map['comments'] as String,
