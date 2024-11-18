@@ -1,7 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:yoga/models/class_data.dart';
+import 'package:yoga/models/class_item.dart';
 import 'package:yoga/screens/class_details_screen.dart';
 import 'package:yoga/utils.dart';
 
@@ -77,8 +77,8 @@ class _HomeScreenState extends State<HomeScreen> {
       classlist = List.generate(
         100,
         (index) => ClassItem(
-            id: index.toString(),
-            courseId: index.toString(),
+            id: index,
+            courseId: index,
             dateOfClass: formatDateToString(DateTime.now()),
             teacher: 'Teacher $index',
             comments: 'comment'),
