@@ -100,6 +100,11 @@ class _HomeScreenState extends State<HomeScreen> {
       });
     }
   }
+
+  @override
+  void setState(VoidCallback fn) {
+    if (mounted) super.setState(fn);
+  }
 }
 
 class ClassItemWidget extends StatelessWidget {
