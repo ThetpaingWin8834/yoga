@@ -31,7 +31,7 @@ class SearchItem {
 
   factory SearchItem.fromMap(Map<String, dynamic> map) {
     return SearchItem(
-      id: map['id'] as int,
+      id: int.parse(map['id'].toString()),
       dayOfWeek: map['day_of_week'] as String,
       timeOfCourse: map['time_of_course'] as String,
       capacityOfClass: map['capacity_of_class'] as String,
