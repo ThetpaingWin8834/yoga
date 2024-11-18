@@ -131,7 +131,7 @@ class _ClassDetailsScreenState extends State<ClassDetailsScreen> {
       setState(() {
         isLoading = false;
         if (e is EmptyDataException) {
-          error = 'Empty data';
+          error = 'Not Found';
         } else {
           error = "$e: $s";
         }
