@@ -119,6 +119,7 @@ class _CartListScreenState extends State<CartListScreen> {
                 Navigator.pop(context);
                 return;
               }
+              Navigator.pop(context);
               bookNow(item, text);
             },
           ),
@@ -143,7 +144,7 @@ class _CartListScreenState extends State<CartListScreen> {
       if (context.mounted) {
         ScaffoldMessenger.of(context)
             .showSnackBar(const SnackBar(content: Text('Success')));
-        CartManager.removeCartItem(item.courseId);
+        CartManager.removeCartItem(item.classId);
         getAllItemsFromCart();
       }
     } catch (e, s) {
@@ -181,7 +182,7 @@ class _CartListScreenState extends State<CartListScreen> {
               Navigator.pop(context);
               CartManager.deleteAll(_cartList
                   .map(
-                    (e) => e.courseId,
+                    (e) => e.classId,
                   )
                   .toList());
               getAllItemsFromCart();
