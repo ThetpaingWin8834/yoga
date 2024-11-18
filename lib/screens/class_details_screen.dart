@@ -1,4 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:yoga/data/cart_manager.dart';
@@ -114,10 +116,11 @@ class _ClassDetailsScreenState extends State<ClassDetailsScreen> {
       final response = await http.post(
           Uri.parse('http://10.0.2.2/flowfityoga/getCourseById.php'),
           body: {'courseId': widget.classData.courseId});
+      final json = jsonDecode(response.body);
       setState(() {
         isLoading = false;
         error = null;
-        classDetail = ClassDetail.fromJson(response.body);
+        classDetail = ClassDetail.fromMap(json);
         checkIsAdded();
       });
     } catch (e, s) {
