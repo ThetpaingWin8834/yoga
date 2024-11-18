@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../models/class_data.dart';
+import '../models/class_item.dart';
 import '../utils.dart';
 
 class BookingListScreen extends StatefulWidget {
@@ -24,33 +24,44 @@ class _BookingListScreenState extends State<BookingListScreen> {
   }
 
   @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Booking List'),
+        title: CupertinoTextField(
+          controller: _controller,
+          placeholder: 'Search...',
+          onChanged: onSearch,
+        ),
         centerTitle: true,
       ),
       body: Column(
         children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 4),
-            child: Row(
-              children: [
-                Expanded(
-                    child: CupertinoTextField(
-                  placeholder: 'Day of week of time',
-                  onChanged: onSearch,
-                )),
-                // const SizedBox(width: 12),
-                // FilledButton.tonal(
-                //   onPressed: () {
-                //     onSearch(_controller.text.trim());
-                //   },
-                //   child: const Text('Search'),
-                // )
-              ],
-            ),
-          ),
+          // Padding(
+          //   padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 4),
+          //   child: Row(
+          //     children: [
+          //       Expanded(
+          //           child: CupertinoTextField(
+          //         controller: _controller,
+          //         placeholder: 'Day of week of time',
+          //         onChanged: onSearch,
+          //       )),
+          //       // const SizedBox(width: 12),
+          //       // FilledButton.tonal(
+          //       //   onPressed: () {
+          //       //     onSearch(_controller.text.trim());
+          //       //   },
+          //       //   child: const Text('Search'),
+          //       // )
+          //     ],
+          //   ),
+          // ),
           Expanded(
             child: isLoading
                 ? const Center(
@@ -106,8 +117,8 @@ class _BookingListScreenState extends State<BookingListScreen> {
       classlist = List.generate(
         100,
         (index) => ClassItem(
-            id: index.toString(),
-            courseId: index.toString(),
+            id: index,
+            courseId: index,
             dateOfClass: formatDateToString(DateTime.now()),
             teacher: 'Teacher $index',
             comments: 'comment'),
