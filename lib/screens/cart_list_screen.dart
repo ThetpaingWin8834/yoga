@@ -134,7 +134,7 @@ class _CartListScreenState extends State<CartListScreen> {
 
   void bookNow(CartItem item, String email) async {
     try {
-      final response = await http.post(
+      await http.post(
         Uri.parse('http://10.0.2.2/flowfityoga/booking.php'),
         body: jsonEncode({
           'class_id': item.classId,
