@@ -137,7 +137,7 @@ class _CartListScreenState extends State<CartListScreen> {
       final response = await http.post(
         Uri.parse('http://10.0.2.2/flowfityoga/booking.php'),
         body: jsonEncode({
-          'courseId': item.courseId,
+          'class_id': item.classId,
           'email': email,
         }),
       );
