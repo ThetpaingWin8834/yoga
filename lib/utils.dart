@@ -14,3 +14,5 @@ bool isValidEmail(String email) {
   );
   return emailRegex.hasMatch(email);
 }
+
+class EmptyDataException implements Exception {}
