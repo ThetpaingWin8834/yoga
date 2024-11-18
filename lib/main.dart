@@ -14,15 +14,19 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Yoga',
+      title: 'FlowFitYoga',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-          useMaterial3: true,
-          filledButtonTheme: FilledButtonThemeData(
-              style: FilledButton.styleFrom(
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8))))),
+        colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF0782BA)),
+        useMaterial3: true,
+        filledButtonTheme: FilledButtonThemeData(
+          style: FilledButton.styleFrom(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8),
+            ),
+          ),
+        ),
+      ),
       home: const MainScreen(),
     );
   }
