@@ -80,7 +80,7 @@ class _HomeScreenState extends State<HomeScreen> {
       setState(() {
         isLoading = false;
         error = null;
-        classlist = jsonList.map((json) => ClassItem.fromJson(json)).toList();
+        classlist = jsonList.map((json) => ClassItem.fromMap(json)).toList();
         // classlist = List.generate(
         //   100,
         //   (index) => ClassItem(
