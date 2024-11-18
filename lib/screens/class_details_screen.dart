@@ -2,8 +2,8 @@
 import 'package:flutter/material.dart';
 import 'package:yoga/data/cart_manager.dart';
 import 'package:yoga/models/cart_item.dart';
-import 'package:yoga/models/class_data.dart';
 import 'package:yoga/models/class_detail.dart';
+import 'package:yoga/models/class_item.dart';
 
 class ClassDetailsScreen extends StatefulWidget {
   final ClassItem classData;
