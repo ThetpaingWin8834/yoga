@@ -74,8 +74,8 @@ class _HomeScreenState extends State<HomeScreen> {
         error = null;
       });
       // await Future.delayed(const Duration(seconds: 2));
-      final response = await http
-          .get(Uri.parse('http://localhost/flowfityoga/getClass.php'));
+      final response =
+          await http.get(Uri.parse('http://10.0.2.2/flowfityoga/getClass.php'));
       final jsonList = jsonDecode(response.body) as List;
       setState(() {
         isLoading = false;
