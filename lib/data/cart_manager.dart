@@ -25,10 +25,8 @@ class CartManager {
     return await box.delete(id);
   }
 
-  static Future<void> deleteAll(String id) async {
+  static Future<void> deleteAll(List<int> ids) async {
     final box = Hive.box<CartItem>(cartBoxName);
-    return await box.deleteAll(box.values.map(
-      (e) => e.classId,
-    ));
+    return await box.deleteAll(ids);
   }
 }
