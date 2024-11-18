@@ -65,8 +65,8 @@ class _CartListScreenState extends State<CartListScreen> {
         title: Text.rich(TextSpan(children: [
           const TextSpan(text: 'Are you sure you want remove '),
           TextSpan(
-              text: item.typeOfClass,
-              style: const TextStyle(decoration: TextDecoration.lineThrough)),
+            text: item.typeOfClass,
+          ),
           const TextSpan(text: ' from cart list'),
         ])),
         actions: [
