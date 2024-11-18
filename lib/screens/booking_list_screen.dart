@@ -15,6 +15,8 @@ class _BookingListScreenState extends State<BookingListScreen> {
   bool isLoading = true;
   Object? error;
   List<ClassItem> classlist = [];
+  final List<ClassItem> _allData = [];
+  final _controller = TextEditingController();
   @override
   void initState() {
     super.initState();
@@ -34,15 +36,18 @@ class _BookingListScreenState extends State<BookingListScreen> {
             padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 4),
             child: Row(
               children: [
-                const Expanded(
+                Expanded(
                     child: CupertinoTextField(
                   placeholder: 'Day of week of time',
+                  onChanged: onSearch,
                 )),
-                const SizedBox(width: 12),
-                FilledButton.tonal(
-                  onPressed: () {},
-                  child: const Text('Search'),
-                )
+                // const SizedBox(width: 12),
+                // FilledButton.tonal(
+                //   onPressed: () {
+                //     onSearch(_controller.text.trim());
+                //   },
+                //   child: const Text('Search'),
+                // )
               ],
             ),
           ),
@@ -72,6 +77,23 @@ class _BookingListScreenState extends State<BookingListScreen> {
     );
   }
 
+  void onSearch(String text) {
+    setState(
+      () {
+        if (text.isEmpty) {
+          classlist = _allData;
+        } else {
+          classlist = _allData.where((item) {
+            return item.dateOfClass
+                    .toLowerCase()
+                    .contains(text.toLowerCase()) ||
+                item.teacher.toLowerCase().contains(text.toLowerCase());
+          }).toList();
+        }
+      },
+    );
+  }
+
   void getAllClasses() async {
     setState(() {
       isLoading = true;
@@ -90,6 +112,7 @@ class _BookingListScreenState extends State<BookingListScreen> {
             teacher: 'Teacher $index',
             comments: 'comment'),
       );
+      _allData.addAll(classlist);
     });
   }
 
