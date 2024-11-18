@@ -76,7 +76,7 @@ class _HomeScreenState extends State<HomeScreen> {
       // await Future.delayed(const Duration(seconds: 2));
       final response =
           await http.get(Uri.parse('http://10.0.2.2/flowfityoga/getClass.php'));
-      final jsonList = jsonDecode(response.body) as List;
+      final jsonList = jsonDecode(response.body);
       setState(() {
         isLoading = false;
         error = null;
@@ -91,10 +91,10 @@ class _HomeScreenState extends State<HomeScreen> {
         //       comments: 'comment'),
         // );
       });
-    } catch (e) {
+    } catch (e, s) {
       setState(() {
         isLoading = false;
-        error = e.toString();
+        error = "$e: $s";
       });
     }
   }
