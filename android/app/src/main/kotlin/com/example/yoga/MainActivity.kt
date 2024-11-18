@@ -1,4 +1,4 @@
-package com.burger.yoga
+package com.example.yoga
 
 import io.flutter.embedding.android.FlutterActivity
 
