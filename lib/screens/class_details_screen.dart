@@ -117,14 +117,26 @@ class _ClassDetailsScreenState extends State<ClassDetailsScreen> {
       final response = await http.post(
           Uri.parse('http://10.0.2.2/flowfityoga/getCourseById.php'),
           body: jsonEncode({'courseId': widget.classData.courseId.toString()}));
+      final temp = jsonDecode(response.body);
+      if (temp is! List<dynamic>) {
+        setState(
+          () {
+            isLoading = false;
+            error = 'Not Found';
+          },
+        );
+        return;
+      }
+      final jsonList = temp;
+
+      if (jsonList.isEmpty) {
+        throw EmptyDataException();
+      }
+
       setState(() {
-        final json = jsonDecode(response.body) as List;
-        if (json.isEmpty) {
-          throw EmptyDataException();
-        }
         isLoading = false;
         error = null;
-        classDetail = ClassDetail.fromMap(json[0]);
+        classDetail = ClassDetail.fromMap(jsonList[0]);
         checkIsAdded();
       });
     } catch (e, s) {
