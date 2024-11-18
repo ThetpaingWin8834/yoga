@@ -1,6 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
-import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -107,9 +106,6 @@ class _ClassDetailsScreenState extends State<ClassDetailsScreen> {
   }
 
   void getDetails() async {
-    final response = await http.post(
-        Uri.parse('http://10.0.2.2/flowfityoga/getCourseById.php'),
-        body: {'courseId': widget.classData.courseId});
     try {
       setState(() {
         isLoading = true;
@@ -117,8 +113,9 @@ class _ClassDetailsScreenState extends State<ClassDetailsScreen> {
         classDetail = null;
       });
       // await Future.delayed(const Duration(seconds: 3));
-
-      log(response.body);
+      final response = await http.post(
+          Uri.parse('http://10.0.2.2/flowfityoga/getCourseById.php'),
+          body: {'courseId': widget.classData.courseId.toString()});
       setState(() {
         final json = jsonDecode(response.body)[0];
         isLoading = false;
@@ -129,7 +126,7 @@ class _ClassDetailsScreenState extends State<ClassDetailsScreen> {
     } catch (e, s) {
       setState(() {
         isLoading = false;
-        error = "${response.body}\\n$e: $s";
+        error = "$e: $s";
       });
     }
   }
