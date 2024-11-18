@@ -20,7 +20,7 @@ class CartManager {
     return await box.put(cartItem.classId, cartItem);
   }
 
-  static Future<void> removeCartItem(String id) async {
+  static Future<void> removeCartItem(int id) async {
     final box = Hive.box<CartItem>(cartBoxName);
     return await box.delete(id);
   }
