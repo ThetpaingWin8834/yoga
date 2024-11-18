@@ -116,8 +116,8 @@ class _ClassDetailsScreenState extends State<ClassDetailsScreen> {
       final response = await http.post(
           Uri.parse('http://10.0.2.2/flowfityoga/getCourseById.php'),
           body: {'courseId': widget.classData.courseId});
-      final json = jsonDecode(response.body);
       setState(() {
+        final json = jsonDecode(response.body)[0];
         isLoading = false;
         error = null;
         classDetail = ClassDetail.fromMap(json);
