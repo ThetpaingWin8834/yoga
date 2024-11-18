@@ -45,7 +45,7 @@ class ClassItem {
     return ClassItem(
       id: int.parse(map['id'].toString()),
       courseId: int.parse(map['courseId'].toString()),
-      dateOfClass: map['dateOfClass'] as String,
+      dateOfClass: map['date_of_class'] as String,
       teacher: map['teacher'] as String,
       comments: map['comments'] as String,
     );
