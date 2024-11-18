@@ -102,8 +102,7 @@ class _ClassDetailsScreenState extends State<ClassDetailsScreen> {
 
   void checkIsAdded() {
     setState(() {
-      _isAlreadyAdded =
-          CartManager.getCartItem(widget.classData.courseId) != null;
+      _isAlreadyAdded = CartManager.getCartItem(widget.classData.id) != null;
     });
   }
 
