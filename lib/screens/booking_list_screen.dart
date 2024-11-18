@@ -101,7 +101,17 @@ class _BookingListScreenState extends State<BookingListScreen> {
       final response = await http.post(
           Uri.parse('http://10.0.2.2/flowfityoga/bookinglist.php'),
           body: jsonEncode({'email': text}));
-      final jsonList = jsonDecode(response.body) as List<dynamic>;
+      final temp = jsonDecode(response.body);
+      if (temp is! List<dynamic>) {
+        setState(
+          () {
+            isLoading = false;
+            error = 'Not Found';
+          },
+        );
+        return;
+      }
+      final jsonList = temp;
       setState(
         () {
           isLoading = false;
