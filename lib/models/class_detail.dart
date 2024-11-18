@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 class ClassDetail {
   final int id;
   final String? dayOfWeek;
@@ -73,11 +71,6 @@ class ClassDetail {
       locationOfClass: map['location_of_class'],
     );
   }
-
-  String toJson() => json.encode(toMap());
-
-  factory ClassDetail.fromJson(String source) =>
-      ClassDetail.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
   String toString() {
