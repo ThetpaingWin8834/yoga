@@ -1,9 +1,11 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:yoga/models/class_item.dart';
 import 'package:yoga/screens/class_details_screen.dart';
-import 'package:yoga/utils.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -66,24 +68,35 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void getAllClasses() async {
-    setState(() {
-      isLoading = true;
-      error = null;
-    });
-    await Future.delayed(const Duration(seconds: 2));
-    setState(() {
-      isLoading = false;
-      error = null;
-      classlist = List.generate(
-        100,
-        (index) => ClassItem(
-            id: index,
-            courseId: index,
-            dateOfClass: formatDateToString(DateTime.now()),
-            teacher: 'Teacher $index',
-            comments: 'comment'),
-      );
-    });
+    try {
+      setState(() {
+        isLoading = true;
+        error = null;
+      });
+      // await Future.delayed(const Duration(seconds: 2));
+      final response = await http
+          .get(Uri.parse('http://localhost/flowfityoga/getClass.php'));
+      final jsonList = jsonDecode(response.body) as List;
+      setState(() {
+        isLoading = false;
+        error = null;
+        classlist = jsonList.map((json) => ClassItem.fromJson(json)).toList();
+        // classlist = List.generate(
+        //   100,
+        //   (index) => ClassItem(
+        //       id: index,
+        //       courseId: index,
+        //       dateOfClass: formatDateToString(DateTime.now()),
+        //       teacher: 'Teacher $index',
+        //       comments: 'comment'),
+        // );
+      });
+    } catch (e) {
+      setState(() {
+        isLoading = false;
+        error = e.toString();
+      });
+    }
   }
 }
 
